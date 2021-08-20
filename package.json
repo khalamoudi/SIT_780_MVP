@@ -1,0 +1,27 @@
+{
+  "name": "sit_780_mvp",
+  "version": "1.0.0",
+  "description": "Cyber Security Policy Mangment System",
+  "main": "server.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khalamoudi/SIT_780_MVP.git"
+  },
+  "author": "Khalid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khalamoudi/SIT_780_MVP/issues"
+  },
+  "homepage": "https://github.com/khalamoudi/SIT_780_MVP#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "mongoose": "^5.13.7"
+  }
+}
