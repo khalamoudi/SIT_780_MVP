@@ -8,6 +8,14 @@ const cors = require('cors')
 // use body parser to convet request into json
 const bodyParser = require('body-parser')
 
+//importing the routers
+const categoryRoute = require('./routes/categoryRouter')
+const departmentRoute = require('./routes/departmentRouter')
+
+//importing the modules
+const departmentModel = require('./models/department')
+const categoryModel = require('./models/category')
+
 //////////////////////////////////////////////////////////////////
 const mongoose = require('mongoose')
 const db=require('./Config/keys')
@@ -39,9 +47,9 @@ mongoose.connect(db.MongoURI, {
   
   // Routes ----------------------------------------------
   app.use('/', require('./routes/pages'))
-
- 
   app.use('/home', require('./routes/homePage'))
+  app.use('/department', departmentRoute)
+  app.use('/category', categoryRoute)
   
   
   http.listen(port, function () {
