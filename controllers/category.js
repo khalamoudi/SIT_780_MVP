@@ -1,5 +1,4 @@
 const category = require('../models/category')
-const socket = require('../server')
 
 //// this function is used to create catregory in database
 const createCategory = async (req, res) => {

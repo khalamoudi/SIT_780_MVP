@@ -3,7 +3,10 @@ const router = require('express').Router()
 
 // Static Pages ================================================================
 router.get('/', function(req, res, next) {
-    res.render('home.ejs')
+    if(req.isAuthenticated())
+        res.render('home.ejs')
+    else
+        res.redirect('/auth/login')
 })
 
 module.exports = router;

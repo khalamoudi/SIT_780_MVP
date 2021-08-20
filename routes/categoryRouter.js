@@ -3,8 +3,21 @@ const router = express.Router();
 
 const catController = require("../controllers/category");
 
-router.post("/", catController.createCategory),
-router.get("/", catController.getCategory),
+router.post("/",(req,res) =>{
+    if(req.isAuthenticated())
+         catController.createCategory(req,res)
+    else
+        res.redirect('/auth/login')
+     }),
+
+
+router.get("/",(req,res) =>{
+    if(req.isAuthenticated())
+         catController.getCategory(req,res)
+    else
+        res.redirect('/auth/login')
+     }),
+
 
 
 module.exports = router;
