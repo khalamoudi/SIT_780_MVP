@@ -1,0 +1,29 @@
+name: Github Actions Testing
+
+on:
+  pull_request:
+  push:
+    branches: 
+      - master
+      - testing
+
+jobs:
+  test:
+    name: Running Units Tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+            node-version: [10.x, 12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install, build, and test
+      run: |
+          run: npm install
+          npm build
+          npm test
