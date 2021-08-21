@@ -2,6 +2,7 @@ const url = require('url')
 const path = require('path')
 const policy = require('../models/policy')
 const category = require('../models/category')
+const socket = require('../server')
 
 //// this function is used to create send file from database
 const getFile = async (req, res) => {
@@ -45,6 +46,7 @@ const createPolicy = async (req, res) => {
     let result = await policy.create({ ...obj })
     let cat = await category.find().lean()
     let plc = await policy.find().lean()
+    let a = await socket.sockets.emit('message', { type: 'policy'})
     res.render('policy.ejs', {
       data: {
         success: 'Policy Uploaded Successfully',

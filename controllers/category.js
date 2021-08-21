@@ -1,4 +1,6 @@
 const category = require('../models/category')
+const socket = require('../server')
+
 
 //// this function is used to create catregory in database
 const createCategory = async (req, res) => {
@@ -10,6 +12,8 @@ const createCategory = async (req, res) => {
       let result = await category.create({ ...data })
       //res.status(200).json({data: result })
       let cat = await category.find().lean()
+      let a = await socket.sockets.emit('message', { type: 'policy' })
+
       res.render('category.ejs', {
         data: { success: 'Category Created Successfully', category: cat },
       })

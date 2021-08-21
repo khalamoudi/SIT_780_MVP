@@ -113,6 +113,20 @@ app.use('/policy', policyRouter)
 app.use('/auth', authRouter)
 app.use('/user', usersRouter)
 
+// using socket .io for realtime connection if server to the client
+const io = require('socket.io')(http)
+  
+//function us used to connect client with server
+io.on('connection', (socket) => {
+  console.log('connected...')
+
+  //socket.emit("message","messege recieve")
+})
+
+const socketConnection = io
+
+module.exports.sockets = socketConnection
+
 
 http.listen(port, function () {
   console.log(`listening on port ${port}...`)
