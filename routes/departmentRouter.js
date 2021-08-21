@@ -14,7 +14,7 @@ router.post("/",(req,res) =>{
 
 router.get("/",(req,res) =>{
     if(req.isAuthenticated())
-        depController.getDepartmen(req,res)
+        depController.getDepartment(req,res)
     else
         res.redirect('/auth/login')
      }),
