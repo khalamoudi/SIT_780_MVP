@@ -18,11 +18,9 @@
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">User Name</th>
+              <th scope="col">Name</th>
               <th scope="col">Email</th>
-              <th scope="col">Department</th>
-              <th scope="col">Role</th>
-              <th id="admin" scope="col">Edit role</th>
+             
             </tr>
           </thead>
           <tbody>
@@ -37,23 +35,10 @@
             <th scope="row"><%= i+1  %></th>
             <td><%= data.user[i].userName %></td>
             <td><%= data.user[i].email %></td>
-            <td><%= data.user[i].department %></td>
-            <td><%= data.user[i].role %></td>
-            <td id="ad<%= i+1  %>"><button  class="btn btn-primary"  id="admin" type="button"  data-toggle="modal" data-target="#exampleModal">Edit</button></td>
 
-    
-           
           </tr>
           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-              <form action="/user" method="post">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Edit <%= data.user[i].userName %> Role</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
                 <form action="/user/" method="put">
                 <div class="modal-body">
 
