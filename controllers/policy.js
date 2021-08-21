@@ -2,7 +2,7 @@ const url = require('url')
 const path = require('path')
 const policy = require('../models/policy')
 const category = require('../models/category')
-const socket = require('../server')
+const socket = require('../app')
 
 //// this function is used to create send file from database
 const getFile = async (req, res) => {
