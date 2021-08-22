@@ -21,7 +21,7 @@ module.exports = (passport) => {
             }
         
             // check password validity
-            if (!bcrypt.compareSync(password, userPassword)) {
+            if (!bcrypt.compareSync(password, user.password)) {
                 // this means fail login
                 return done(null, false);
             }
