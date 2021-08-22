@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const passport = require('passport');
-const userService = require('../services/userService')
 const departmentModel = require('../models/department')
 
 //  Signup ====================================================================
@@ -12,15 +11,13 @@ router.get('/signup', async (req, res) => {
 
 router.post('/signup', passport.authenticate('local-signup', {
 	failureRedirect : '/auth/signup',
-	failureFlash : false // allow flash messages
+	failureFlash : false // flash messages
 }), function(req, res, next)  {
-	// TODO: redirect to /manager or /member
 	res.redirect('/home/')
 });
 
-// Login ====================================================================
+// Login 
 router.get('/login', function(req, res, next)  {
-	// if user logged in
 	if (req.user) {
 		res.redirect('/home/')
 	} else {

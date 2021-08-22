@@ -1,75 +1,66 @@
 const LocalStrategy = require('passport-local').Strategy;
-
-// Models
+const bcrypt = require('bcrypt-nodejs');
 const User = require('../models/user');
 const UserDetail = require('../models/UserDetail');
-const userService = require('../services/userService');
 
-// =========================================================================
-// module.exports enables app.js to use require('./config/passport')(passport)
-module.exports = function(passport) {
-    // =========================================================================
-    // LOCAL LOGIN =============================================================
-    // =========================================================================
+
+module.exports = (passport) => {
+    // LOCAL LOGIN 
     passport.use('local-login', new LocalStrategy({
         // by default, local strategy uses username and password, we will override with email
-        usernameField : 'email',    // 'email' refers to the req.body.email submitted with login.ejs form where the <input name="email" ...>
-        passwordField : 'password', // 'password' refers to the req.body.password submitted with login.ejs form where the <input name="password" ...>
-        passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
-    }, function(req, email, password, done) {
+        usernameField : 'email', 
+        passwordField : 'password', 
+        passReqToCallback : true // check if a user is logged in or not)
+    },(req, email, password, done) => {
         
         // we lookup a user with a matching 'email'
-        User.findOne({email: email}).then(function(user) {
-            // Note: the callback function 'done' is used here like 'return' to resume progam execution.
-            // it's first parameter is the error, if no error, we pass null.
-            // the second parameter is the user object, if error, we pass false.
-            // if no user found
+        User.findOne({email: email}).then((user) => {
             if (!user) {
                 // this means fail the login
                 return done(null, false);
             }
         
             // check password validity
-            if (!userService.validPassword(password, user.password)) {
+            if (!bcrypt.compareSync(password, userPassword)) {
                 // this means fail login
                 return done(null, false);
             }
 
-            // otherwise, pass user object with no errors
+            //pass user object -> no errors
             return done(null, user)    
         }).catch(function(err) {done(err, false)});
     }));
 
-    // =========================================================================
-    // LOCAL SIGNUP ============================================================
-    // =========================================================================
+   
+    // LOCAL SIGNUP 
+
     passport.use('local-signup', new LocalStrategy({
-        // by default, local strategy uses username and password, we will override with email
+        //local strategy uses username and password, we will override with email
         usernameField : 'email',
         passwordField : 'password',
-        passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+        passReqToCallback : true // to check if a user is logged in or not
     }, function(req, email, password, done) {
 
         // if the user is already logged in:
         if (req.user) {
-            // just pass back his data
+            // pass retrive his data
             return done(null, req.user);
         }
 
         // we check if no other user has already taken this email
         User.findOne({email : email}).then(function(user) {
 
-            // check if a user found with this email
+            // check if this email is found
             if (user) {
                 // fail the signup
                 return done(null, false);
             }
 
-            // otherwise store user info in the Database
+            // create user on user Schema in DB
             new User({
                 email: email,
                 // hash/encrypt password before storing it in the database
-                password: userService.generateHash(password),
+                password: bcrypt.hashSync(password, bcrypt.genSaltSync(8), null),
                 userName: req.body.userName,
                 role: req.body.role,
                 Department:req.body.department
@@ -77,6 +68,7 @@ module.exports = function(passport) {
                 if (err) {
                     return done(err, false)
                 }
+            // create user on user Schema in DB
             new UserDetail({
                 user_id:savedUser._id,
                 email: email,
@@ -95,9 +87,7 @@ module.exports = function(passport) {
         }).catch(function(err) {done(err, false)});
     }));
 
-    // passport session setup ==================================================
-    // =========================================================================
-    // required for persistent login sessions
+    // passport session setup 
     // passport needs ability to serialize and unserialize users out of session
 
     // used to serialize the user for the session
